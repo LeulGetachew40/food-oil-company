@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaClient } from '@prisma/client';
@@ -46,11 +52,25 @@ export class UsersService {
   }
 
   // strip properties like id and such
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: UsersId, updateUserDto: UpdateUserDto) {
+    const user = await this.findOne(id);
+
+    if (!user) throw new NotFoundException('User not found!');
+
+    this.logger.log(updateUserDto);
+
+    const updatedUser = await this.prisma.user.update({
+      where: { id: user.id },
+      data: updateUserDto,
+    });
+
+    return updatedUser;
+  }
+  async remove(id: UsersId) {
+    return await this.prisma.user.delete({ where: { id } });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async deleteAll() {
+    return await this.prisma.user.deleteMany();
   }
 }

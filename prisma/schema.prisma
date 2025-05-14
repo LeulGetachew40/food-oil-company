@@ -18,7 +18,8 @@ model User {
   email      String     @unique
   password   String
   firstName  String
-  lastName   String
+  lastName   String?
+  age        Int        @default(18)
   phone      String?
   role       UserRole   @default(CUSTOMER)
   createdAt  DateTime   @default(now())

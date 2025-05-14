@@ -37,12 +37,15 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  update(@Param('id') id: UsersId, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(id, updateUserDto);
   }
-
+  @Delete('all')
+  deleteAll() {
+    return this.usersService.deleteAll();
+  }
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  remove(@Param('id') id: UsersId) {
+    return this.usersService.remove(id);
   }
 }
