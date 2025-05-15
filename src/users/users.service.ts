@@ -66,10 +66,16 @@ export class UsersService {
 
     return updatedUser;
   }
+
+  async findUserByEmail(email: string) {
+    return this.prisma.user.findUnique({ where: { email } });
+  }
+
   async remove(id: UsersId) {
     return await this.prisma.user.delete({ where: { id } });
   }
 
+  // delete this later
   async deleteAll() {
     return await this.prisma.user.deleteMany();
   }

@@ -1,9 +1,6 @@
 import UserRole from 'src/schemas/public/UserRole';
-import { UsersId, UsersInitializer } from './../../schemas/public/Users';
 import { IsEmail, IsString } from 'class-validator';
-export class CreateUserDto implements UsersInitializer {
-  id: UsersId;
-
+export class CreateUserDto {
   @IsEmail({}, { message: 'Invalid Email Address' })
   readonly email: string;
 
@@ -17,6 +14,4 @@ export class CreateUserDto implements UsersInitializer {
 
   phone?: string;
   role?: UserRole;
-  createdAt?: Date;
-  updatedAt: Date;
 }
